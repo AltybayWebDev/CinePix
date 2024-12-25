@@ -1,3 +1,9 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 #body {
   font-family: "Varela Round", serif;
   font-weight: 400;
@@ -37,9 +43,10 @@
 }
 
 .card {
-  width: 300px;
-  height: 450px;
+  height: 400px;
   border-radius: 25px;
+  max-width: 300px;
+  margin: auto;
 }
 
 .card img {
@@ -72,6 +79,9 @@
   justify-content: space-between;
 }
 
-.socials {
-  
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
 }
+
