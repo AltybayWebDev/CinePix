@@ -57,9 +57,110 @@
 
     <section>
       <div class="container">
-        <div class="row g-5 bg-dark p-5">
-          <div class="col-4 bg-warning p-5"></div>
-          <div class="col-8 bg-info"></div>
+        <div class="row mt-5">
+          <div class="col-md-4">
+            <div class="filter-box p-4">
+              <h5>Filtreler</h5>
+              <form>
+                <div class="form-group">
+                  <label for="genre">Tür</label>
+                  <select class="form-control" id="genre">
+                    <option>Komedi</option>
+                    <option>Aksiyon</option>
+                    <option>Dram</option>
+                    <option>Korku</option>
+                    <option>Bilim Kurgu</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="rating">Puan</label>
+                  <select class="form-control" id="rating">
+                    <option>7+</option>
+                    <option>8+</option>
+                    <option>9+</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="date">Yıl</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="date"
+                    placeholder="Yıl"
+                    min="1900"
+                    max="2024"
+                  />
+                </div>
+                <button type="submit" class="btn btn-primary btn-block mt-4">
+                  Filtrele
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <div class="col-md-8">
+            <div class="row">
+              <div class="col-md-4 mb-4">
+                <a href="film1.html" class="movie-card">
+                  <img
+                    src="https://picsum.photos/300/250?random=1"
+                    alt="Film 1"
+                  />
+                  <div class="movie-card-body">
+                    <div class="movie-title">Film Adı 1</div>
+                    <div class="movie-description">
+                      Aksiyon dolu bir film. Eğlenceli bir deneyim.
+                    </div>
+                  </div>
+                </a>
+              </div>
+
+              <div class="col-md-4 mb-4">
+                <a href="film2.html" class="movie-card">
+                  <img
+                    src="https://picsum.photos/300/250?random=2"
+                    alt="Film 2"
+                  />
+                  <div class="movie-card-body">
+                    <div class="movie-title">Film Adı 2</div>
+                    <div class="movie-description">
+                      Drama ve gerilim dolu bir film.
+                    </div>
+                  </div>
+                </a>
+              </div>
+
+              <div class="col-md-4 mb-4">
+                <a href="film3.html" class="movie-card">
+                  <img
+                    src="https://picsum.photos/300/250?random=3"
+                    alt="Film 3"
+                  />
+                  <div class="movie-card-body">
+                    <div class="movie-title">Film Adı 3</div>
+                    <div class="movie-description">
+                      Korku türünde bir başyapıt.
+                    </div>
+                  </div>
+                </a>
+              </div>
+
+              <div class="col-md-4 mb-4">
+                <a href="film4.html" class="movie-card">
+                  <img
+                    src="https://picsum.photos/300/250?random=4"
+                    alt="Film 4"
+                  />
+                  <div class="movie-card-body">
+                    <div class="movie-title">Film Adı 4</div>
+                    <div class="movie-description">
+                      Bilim kurgu dolu bir hikaye.
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -119,5 +220,7 @@
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.5/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   </body>
 </html>
