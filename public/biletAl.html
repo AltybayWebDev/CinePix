@@ -17,6 +17,42 @@
     crossorigin="anonymous"
     referrerpolicy="no-referrer"
   />
+  <style>
+    .seat-map {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 8px;
+      justify-content: center;
+      padding: 16px;
+    }
+    .seat {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px; /* Yazı boyutunu küçültüyoruz */
+      font-weight: bold;
+    }
+    .seat.selected {
+      background-color: #007bff;
+      color: white;
+    }
+    .seat.taken {
+      background-color: #dc3545;
+      color: white;
+      cursor: not-allowed;
+    }
+    .seat-map-label {
+      text-align: center;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+  </style>
+  
 </head>
 <body>
   <div class="container my-5">
@@ -37,11 +73,10 @@
         </div>
       </div>
 
-      <!-- Bilet Alma Formu -->
+      <!-- Koltuk Seçimi -->
       <div class="col-md-8">
-        <form>
-          <!-- Seans Seçimi -->
-          <div class="mb-4">
+        <form action="bilet.html" method="get">
+          <div class="mb-4">-m ""
             <label for="seans" class="form-label"><strong>Seans Seçimi:</strong></label>
             <select class="form-select" id="seans">
               <option value="14:30">14:30 (2D Türkçe Dublaj)</option>
@@ -50,38 +85,40 @@
             </select>
           </div>
 
-          <!-- Salon Seçimi -->
-          <div class="mb-4">
-            <label for="salon" class="form-label"><strong>Salon Seçimi:</strong></label>
-            <select class="form-select" id="salon">
-              <option value="1">Salon 1 (Standart)</option>
-              <option value="2">Salon 2 (VIP)</option>
-              <option value="3">Salon 3 (IMAX)</option>
-            </select>
+          <div class="seat-status d-flex justify-content-center my-3">
+            <div class="d-flex align-items-center me-3">
+              <div class="seat selected me-2"></div> <span>Seçili</span>
+            </div>
+            <div class="d-flex align-items-center me-3">
+              <div class="seat taken me-2"></div> <span>Dolu</span>
+            </div>
+            <div class="d-flex align-items-center">
+              <div class="seat me-2"></div> <span>Boş</span>
+            </div>
           </div>
 
-          <!-- Koltuk Seçimi -->
           <div class="mb-4">
-            <label for="koltuk" class="form-label"><strong>Koltuk Seçimi:</strong></label>
-            <div class="row">
-              <div class="col-md-12">
-                <div class="seat-map border p-3">
-                  <!-- Örnek Koltuk Şeması -->
-                  <div class="d-flex justify-content-between mb-3">
-                    <span class="badge bg-success">Boş</span>
-                    <span class="badge bg-danger">Dolu</span>
-                    <span class="badge bg-primary">Seçili</span>
-                  </div>
-                  <div class="row gx-2 gy-2 text-center">
-                    <button type="button" class="btn btn-outline-success col-2">A1</button>
-                    <button type="button" class="btn btn-outline-success col-2">A2</button>
-                    <button type="button" class="btn btn-outline-danger col-2" disabled>Dolu</button>
-                    <button type="button" class="btn btn-outline-success col-2">A4</button>
-                    <button type="button" class="btn btn-outline-success col-2">A5</button>
-                  </div>
-                </div>
-              </div>
+            <label for="salon" class="form-label"><strong>Koltuk Seçimi:</strong></label>
+            <div class="seat-map">
+              <!-- Koltukları Otomatik Olarak Oluştur -->
+              <!-- Örnek: Toplam 50 koltuk (5 sıra x 10 koltuk) -->
+              <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                  const seatMap = document.querySelector(".seat-map");
+                  for (let i = 1; i <= 50; i++) {
+                    const seat = document.createElement("button");
+                    seat.classList.add("seat", "btn", "btn-outline-secondary");
+                    seat.textContent = `K${i}`;
+                    seat.type = "button";
+                    seat.onclick = () => {
+                      seat.classList.toggle("selected");
+                    };
+                    seatMap.appendChild(seat);
+                  }
+                });
+              </script>
             </div>
+            <p class="seat-map-label">Lütfen koltuğunuzu seçiniz.</p>
           </div>
 
           <!-- Bilet Türü -->
