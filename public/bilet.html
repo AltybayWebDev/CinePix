@@ -31,12 +31,12 @@
 
   <script>
     function getQueryParam(param) {
-      const urlParams = new URLSearchParams(window.location.search);
+      const urlParams = new URLSearchParams(window.location.search);    
       return urlParams.get(param) || "Belirtilmedi";
     }
 
     document.getElementById("seans").textContent = getQueryParam("seans");
-    document.getElementById("koltuk").textContent = getQueryParam("koltuk");
+    document.getElementById("koltuk").textContent = getQueryParam("koltuk");  
     document.getElementById("bilet").textContent = getQueryParam("bilet");
 
     function showTickets() {
