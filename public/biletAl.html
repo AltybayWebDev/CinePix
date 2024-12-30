@@ -34,7 +34,7 @@
       border: 1px solid #ccc;
       border-radius: 4px;
       cursor: pointer;
-      font-size: 12px; /* Yazı boyutunu küçültüyoruz */
+      font-size: 12px;
       font-weight: bold;
     }
     .seat.selected {
@@ -58,7 +58,6 @@
   <div class="container my-5">
     <h1 class="display-5 text-center mb-4">Bilet Al</h1>
     <div class="row">
-      <!-- Film Detayları -->
       <div class="col-md-4">
         <div class="card">
           <img src="https://picsum.photos/300/400?random=5" class="card-img-top" alt="Film Posteri">
@@ -73,7 +72,6 @@
         </div>
       </div>
 
-      <!-- Koltuk Seçimi -->
       <div class="col-md-8">
         <form action="bilet.html" method="get">
           <div class="mb-4">
@@ -100,8 +98,6 @@
           <div class="mb-4">
             <label for="salon" class="form-label"><strong>Koltuk Seçimi:</strong></label>
             <div class="seat-map">
-              <!-- Koltukları Otomatik Olarak Oluştur -->
-              <!-- Örnek: Toplam 50 koltuk (5 sıra x 10 koltuk) -->
               <script>
                 document.addEventListener("DOMContentLoaded", () => {
                   const seatMap = document.querySelector(".seat-map");
@@ -121,7 +117,6 @@
             <p class="seat-map-label">Lütfen koltuğunuzu seçiniz.</p>
           </div>
 
-          <!-- Bilet Türü -->
           <div class="mb-4">
             <label for="bilet" class="form-label"><strong>Bilet Türü:</strong></label>
             <select class="form-select" id="bilet">
@@ -131,12 +126,10 @@
             </select>
           </div>
 
-          <!-- Toplam Ücret -->
           <div class="mb-4">
             <p class="fs-5"><strong>Toplam Tutar:</strong> 0₺</p>
           </div>
 
-          <!-- Onaylama -->
           <button type="submit" class="btn btn-primary btn-lg">Bilet Al</button>
         </form>
       </div>
