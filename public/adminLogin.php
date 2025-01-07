@@ -11,7 +11,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $idNumber = $conn->real_escape_string($_POST['idNumber']);
     $password = $_POST['password'];
 
-    $sql = "SELECT * FROM users WHERE kimlik_no = ?";
+    // Admin tablosunda kullanıcıyı ara
+    $sql = "SELECT * FROM admin WHERE kimlik_no = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $idNumber);
     $stmt->execute();
@@ -20,11 +21,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
 
+        // Şifre doğrulama
         if (password_verify($password, $user['parola'])) {
             $_SESSION['user_id'] = $user['id'];
-            $_SESSION['is_admin'] = false; 
+            $_SESSION['is_admin'] = true;  // Admin olduğunda is_admin true olarak kaydedilir
 
-            header("Location: index.html");
+            // Admin paneline yönlendir
+            header("Location: admin_panel.php");
             exit();
         } else {
             $error = "Şifre hatalı.";
@@ -37,14 +40,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conn->close();
 }
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Giriş Yap</title>
+    <title>Admin Giriş Yap</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
       body {
@@ -68,31 +69,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         margin-bottom: 1.5rem;
         font-weight: bold;
       }
-      .form-check-label {
-        font-size: 0.9rem;
-      }
       .login-container .btn-primary {
         width: 100%;
         margin-top: 1rem;
-      }
-      .login-container .extra-links {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 1rem;
-        font-size: 0.9rem;
-      }
-      .login-container .extra-links a {
-        color: #3498db;
-        text-decoration: none;
-      }
-      .login-container .extra-links a:hover {
-        text-decoration: underline;
       }
     </style>
 </head>
 <body>
 <div class="login-container">
-    <h1>Giriş Yap</h1>
+    <h1>Admin Girişi</h1>
     <?php if (!empty($error)) echo "<div class='alert alert-danger'>$error</div>"; ?>
     <form method="POST" action="">
         <div class="mb-3">
@@ -119,27 +104,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 required
             />
         </div>
-        <div class="form-check mb-3">
-            <input type="checkbox" id="remember" class="form-check-input" />
-            <label for="remember" class="form-check-label">Beni Hatırla</label>
-        </div>
         <button type="submit" class="btn btn-primary">Giriş Yap</button>
-        <button
-            type="button"
-            class="mt-2 btn btn-warning w-100"
-            onclick="goToIndex()"
-        >
-        Geri
-        </button>
     </form>
-    <div class="extra-links" style="display: block">
-        Yeni Misiniz? Hemen <a href="register.php">Kayıt Olun.</a>
-    </div>
 </div>
-<script>
-    function goToIndex() {
-        window.location.href = "index.html";
-    }
-</script>
 </body>
 </html>
