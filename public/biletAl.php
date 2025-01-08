@@ -73,7 +73,7 @@
       </div>
 
       <div class="col-md-8">
-        <form action="bilet.html" method="get">
+        <form action="bilet.php" method="get">
           <div class="mb-4">
             <label for="seans" class="form-label"><strong>Seans Seçimi:</strong></label>
             <select class="form-select" id="seans">

@@ -106,7 +106,7 @@
           <div class="col-md-8">
             <div class="row">
               <div class="col-md-4 mb-4">
-                <a href="filmDetaylari.html" class="movie-card">
+                <a href="filmDetaylari.php" class="movie-card">
                   <img
                     src="https://picsum.photos/300/250?random=1"
                     alt="Film 1"
@@ -124,7 +124,7 @@
               </div>
 
               <div class="col-md-4 mb-4">
-                <a href="filmDetaylari.html" class="movie-card">
+                <a href="filmDetaylari.php" class="movie-card">
                   <img
                     src="https://picsum.photos/300/250?random=2"
                     alt="Film 2"
@@ -142,7 +142,7 @@
               </div>
 
               <div class="col-md-4 mb-4">
-                <a href="filmDetaylari.html" class="movie-card">
+                <a href="filmDetaylari.php" class="movie-card">
                   <img
                     src="https://picsum.photos/300/250?random=3"
                     alt="Film 3"
@@ -160,7 +160,7 @@
               </div>
 
               <div class="col-md-4 mb-4">
-                <a href="filmDetaylari.html" class="movie-card">
+                <a href="filmDetaylari.php" class="movie-card">
                   <img
                     src="https://picsum.photos/300/250?random=4"
                     alt="Film 4"

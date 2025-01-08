@@ -73,7 +73,7 @@
             <strong>IMDb Puanı:</strong> 8.5/10
           </p>
           <button
-            onclick="window.location.href='biletAl.html';"
+            onclick="window.location.href='biletAl.php';"
             class="btn btn-primary btn-lg mt-3"
           >
             <i class="fas fa-ticket-alt"></i> Bilet Al
