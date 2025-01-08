@@ -31,7 +31,7 @@
   <body id="#body">
     <nav class="navbar navbar-expand-md bg-dark navbar-dark">
       <div class="container">
-        <a href="index.html" class="navbar-brand"
+        <a href="index.php" class="navbar-brand"
           ><img src="img/Movie_Ticket.png" alt="" width="30px" />Cine<span
             class="text-warning"
             >Pix</span
@@ -48,9 +48,9 @@
 
         <div id="mobile" class="collapse navbar-collapse">
           <ul class="navbar-nav me-auto">
-            <li><a href="index.html" class="nav-link">Anasayfa</a></li>
-            <li><a href="films.html" class="nav-link active">Filmler</a></li>
-            <li><a href="contact.html" class="nav-link">İletişim</a></li>
+            <li><a href="index.php" class="nav-link">Anasayfa</a></li>
+            <li><a href="films.php" class="nav-link active">Filmler</a></li>
+            <li><a href="contact.php" class="nav-link">İletişim</a></li>
           </ul>
         </div>
 
@@ -190,21 +190,21 @@
             <li class="list-item">
               <a
                 class="list-group-item list-group-item-action"
-                href="index.html"
+                href="index.php"
                 >Anasayfa</a
               >
             </li>
             <li class="list-item">
               <a
                 class="list-group-item list-group-item-action"
-                href="films.html"
+                href="films.php"
                 >Filmler</a
               >
             </li>
             <li class="list-item">
               <a
                 class="list-group-item list-group-item-action"
-                href="contact.html"
+                href="contact.php"
                 >İletişim</a
               >
             </li>

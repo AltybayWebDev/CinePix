@@ -30,12 +30,11 @@
   <body id="#body">
     <nav class="navbar navbar-expand-md bg-dark navbar-dark">
       <div class="container">
-        <a href="index.html" class="navbar-brand"
-          ><img src="img/Movie_Ticket.png" alt="" width="30px" />Cine<span
-            class="text-warning"
-            >Pix</span
-          ></a
-        >
+        <a href="index.php" class="navbar-brand">
+          <img src="img/Movie_Ticket.png" alt="" width="30px" />
+          Cine<span class="text-warning">Pix</span>
+        </a>
+
         <button
           class="navbar-toggler"
           type="button"
@@ -47,71 +46,84 @@
 
         <div id="mobile" class="collapse navbar-collapse">
           <ul class="navbar-nav me-auto">
-            <li><a href="index.html" class="nav-link">Anasayfa</a></li>
-            <li><a href="films.html" class="nav-link">Filmler</a></li>
-            <li><a href="contact.html" class="nav-link active">İletişim</a></li>
+            <li><a href="index.php" class="nav-link active">Anasayfa</a></li>
+            <li><a href="films.php" class="nav-link">Filmler</a></li>
+            <li><a href="contact.php" class="nav-link">İletişim</a></li>
           </ul>
+
+          <?php if (isset($_SESSION['user_id'])): ?>
+          <a href="profile.php" class="nav-link text-white">
+            <?php echo $_SESSION['username']; ?>
+          </a>
+          <?php else: ?>
+          <a href="login.php" class="nav-link">
+            <i class="fa-solid fa-user-plus fa-2x text-white me-3"></i>
+          </a>
+          <?php endif; ?>
+
+          <form class="d-flex align-items-center">
+            <input
+              type="text"
+              class="form-control me-1"
+              placeholder="Search"
+              style="max-width: 200px"
+            />
+            <button class="btn btn-warning">
+              <i class="fas fa-magnifying-glass"></i>
+            </button>
+          </form>
         </div>
-        <a href="login.php" class="nav-link">
-          <i class="fa-solid fa-user-plus fa-2x text-white me-3"></i>
-        </a>
       </div>
     </nav>
 
-    <section class="container my-5">
-      <div class="row">
-        <div class="col-md-6">
-          <h2>İletişime Geçin</h2>
-          <p class="lead">
-            Bizimle iletişime geçmek için aşağıdaki formu doldurun veya iletişim
-            bilgilerini kullanın.
-          </p>
-
-          <div class="contact-info my-4">
-            <div>
-              <i class="fas fa-map-marker-alt"></i> Adres: Mah. Sinema Sok.
-              No:123, İstanbul
-            </div>
-            <div><i class="fas fa-phone"></i> Telefon: +90 123 456 78 90</div>
-            <div><i class="fas fa-envelope"></i> E-posta: info@cinepix.com</div>
-          </div>
+    <header class="main-header" style="height: 90vh">
+      <div
+        class="container d-flex justify-content-center align-items-center text-white h-100"
+      >
+        <div class="bg-warning text-center p-4 rounded">
+          <h1 class="text-white">CinePix'e Hoş Geldiniz!</h1>
         </div>
+      </div>
+    </header>
 
-        <div class="col-md-6">
-          <h3>Bizimle İletişime Geçin</h3>
-          <form class="contact-form">
-            <div class="form-group">
-              <label for="name">Adınız Soyadınız</label>
-              <input
-                type="text"
-                class="form-control mb-3"
-                id="name"
-                placeholder="Adınız Soyadınız"
-                required
-              />
+    <section class="section-a">
+      <div class="container mt-5">
+        <h2>Yeni Eklenenlere Bir Göz Atın</h2>
+        <div class="references owl-carousel owll-theme mt-5">
+          <a href="films.php">
+            <div>
+              <div class="card"><img src="img/ayla.jpg" alt="" /></div>
             </div>
-            <div class="form-group">
-              <label for="email">E-posta Adresiniz</label>
-              <input
-                type="email"
-                class="form-control mb-3"
-                id="email"
-                placeholder="E-posta adresiniz"
-                required
-              />
+          </a>
+          <a href="films.php">
+            <div>
+              <div class="card">
+                <img src="img/kurtlar_imparatorluğu.jpeg" alt="" />
+              </div>
             </div>
-            <div class="form-group">
-              <label for="message">Mesajınız</label>
-              <textarea
-                class="form-control mb-3"
-                id="message"
-                rows="4"
-                placeholder="Mesajınızı buraya yazın"
-                required
-              ></textarea>
+          </a>
+          <a href="films.php">
+            <div>
+              <div class="card"><img src="img/matrix.webp" alt="" /></div>
             </div>
-            <button type="submit" class="btn btn-primary">Gönder</button>
-          </form>
+          </a>
+          <a href="films.php">
+            <div>
+              <div class="card"><img src="img/mortal_kombat.jpg" alt="" /></div>
+            </div>
+          </a>
+          <a href="films.php">
+            <div>
+              <div class="card">
+                <img src="img/the_god_father.jpeg" alt="" />
+              </div>
+            </div>
+          </a>
+          <a href="films.php">
+            <div>
+              <div class="card"><img src="img/venom.jpeg" alt="" /></div>
+            </div>
+          </a>
         </div>
       </div>
     </section>
@@ -124,21 +136,21 @@
             <li class="list-item">
               <a
                 class="list-group-item list-group-item-action"
-                href="index.html"
+                href="index.php"
                 >Anasayfa</a
               >
             </li>
             <li class="list-item">
               <a
                 class="list-group-item list-group-item-action"
-                href="films.html"
+                href="films.php"
                 >Filmler</a
               >
             </li>
             <li class="list-item">
               <a
                 class="list-group-item list-group-item-action"
-                href="contact.html"
+                href="contact.php"
                 >İletişim</a
               >
             </li>
@@ -166,12 +178,39 @@
       </div>
     </footer>
 
+    <script src="js/jquery.min.js"></script>
+    <script src="js/owl.carousel.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.5/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $(".references").owlCarousel({
+          items: 3,
+          loop: true,
+          margin: 10,
+          nav: true,
+          autoplay: true,
+          autoplayTimeout: 2000,
+          dots: true,
+          responsive: {
+            0: {
+              items: 1,
+            },
+            576: {
+              items: 2,
+            },
+            768: {
+              items: 3,
+            },
+            1200: {
+              items: 4,
+            },
+          },
+        });
+      });
+    </script>
   </body>
 </html>

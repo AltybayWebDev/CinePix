@@ -8,13 +8,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("Veritabanı bağlantı hatası: " . $conn->connect_error);
     }
 
-    $idNumber = $conn->real_escape_string($_POST['idNumber']);
+    // Kullanıcı adı ve şifreyi alıyoruz
+    $username = $conn->real_escape_string($_POST['username']);
     $password = $_POST['password'];
 
     // Admin tablosunda kullanıcıyı ara
-    $sql = "SELECT * FROM admin WHERE kimlik_no = ?";
+    $sql = "SELECT * FROM admin WHERE username = ?"; // username ile sorgulama yapıyoruz
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $idNumber);
+    $stmt->bind_param("s", $username);
     $stmt->execute();
     $result = $stmt->get_result();
 
@@ -33,13 +34,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $error = "Şifre hatalı.";
         }
     } else {
-        $error = "Kimlik numarası bulunamadı.";
+        $error = "Kullanıcı adı bulunamadı.";
     }
 
     $stmt->close();
     $conn->close();
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -81,15 +83,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php if (!empty($error)) echo "<div class='alert alert-danger'>$error</div>"; ?>
     <form method="POST" action="">
         <div class="mb-3">
-            <label for="idNumber" class="form-label">Kimlik Numarası:</label>
+            <label for="username" class="form-label">Kullanıcı Adı:</label>
             <input
                 type="text"
-                id="idNumber"
+                id="username"
                 class="form-control"
-                name="idNumber"
-                pattern="\d{11}"
-                title="Kimlik numarası 11 haneli bir sayı olmalıdır"
-                placeholder="Kimlik Numarası Girin"
+                name="username"
+                placeholder="Kullanıcı Adınızı Girin"
                 required
             />
         </div>
