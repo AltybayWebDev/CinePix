@@ -1,3 +1,39 @@
+<?php
+require_once 'db_connect.php'; 
+
+$filmname = isset($_GET['filmname']) ? $_GET['filmname'] : '';
+$genre = isset($_GET['genre']) ? $_GET['genre'] : '';
+$date = isset($_GET['date']) ? $_GET['date'] : '';
+
+$query = "SELECT * FROM filmler WHERE 1=1";
+
+if (!empty($filmname)) {
+    $query .= " AND film_adi LIKE :filmname";
+}
+if (!empty($genre)) {
+    $query .= " AND film_turu = :genre";
+}
+if (!empty($date)) {
+    $query .= " AND yayinlanma_tarihi = :date";
+}
+
+$stmt = $conn->prepare($query);
+
+if (!empty($filmname)) {
+    $stmt->bindValue(':filmname', "%$filmname%", PDO::PARAM_STR);
+}
+if (!empty($genre)) {
+    $stmt->bindValue(':genre', $genre, PDO::PARAM_STR);
+}
+if (!empty($date)) {
+    $stmt->bindValue(':date', $date, PDO::PARAM_STR);
+}
+
+$stmt->execute();
+$films = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -28,6 +64,7 @@
     <link rel="stylesheet" href="css/owl.carousel.min.css" />
     <link rel="shortcut icon" href="img/Movie_Ticket.png" type="image/x-icon" />
   </head>
+  <body>
   <body id="#body">
     <nav class="navbar navbar-expand-md bg-dark navbar-dark">
       <div class="container">
@@ -59,119 +96,90 @@
         </a>
       </div>
     </nav>
-
     <section>
-      <div class="container">
-        <div class="row mt-5">
-          <div class="col-md-4">
-            <div class="filter-box p-4">
-              <h5>Filtreler</h5>
-              <form>
-                <div class="form-group">
-                <label for="filmname">Film Adı</label>
-                <input type="text" name="filmname" id="filmname" class="form-control" placeholder="Film Adı">
-                </div>
-                <div class="form-group">
-                  <label for="genre">Tür</label>
-                  <select class="form-control" id="genre">
-                    <option>Komedi</option>
-                    <option>Aksiyon</option>
-                    <option>Dram</option>
-                    <option>Korku</option>
-                    <option>Bilim Kurgu</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="date">Tarihi</label>
-                  <input type="date" name="date" id="date" class="form-control">
-                </div>
-                <button type="submit" class="btn btn-primary btn-block mt-4">
-                  Filtrele
-                </button>
-              </form>
+  <div class="container">
+    <div class="row mt-5">
+      <div class="col-md-4">
+        <div class="filter-box p-4">
+          <h5>Filtreler</h5>
+          <form method="GET" action="films.php">
+            <div class="form-group">
+              <label for="filmname">Film Adı</label>
+              <input
+                type="text"
+                name="filmname"
+                id="filmname"
+                class="form-control"
+                placeholder="Film Adı"
+                value="<?php echo htmlspecialchars($filmname); ?>"
+              />
             </div>
-          </div>
-
-          <div class="col-md-8">
-            <div class="row">
-              <div class="col-md-4 mb-4">
-                <a href="filmDetaylari.php" class="movie-card">
-                  <img
-                    src="https://picsum.photos/300/250?random=1"
-                    alt="Film 1"
-                  />
-                  <div class="movie-card-body">
-                    <div class="movie-title">Film Adı 1</div>
-                    <div class="movie-description">
-                      Aksiyon dolu bir film. Eğlenceli bir deneyim.
-                    </div>
-                    <div class="movie-price mt-3">
-                      <span class="badge bg-success">Fiyat: 500₺</span>
-                    </div>
-                  </div>
-                </a>
-              </div>
-
-              <div class="col-md-4 mb-4">
-                <a href="filmDetaylari.php" class="movie-card">
-                  <img
-                    src="https://picsum.photos/300/250?random=2"
-                    alt="Film 2"
-                  />
-                  <div class="movie-card-body">
-                    <div class="movie-title">Film Adı 2</div>
-                    <div class="movie-description">
-                      Drama ve gerilim dolu bir film.
-                    </div>
-                    <div class="movie-price mt-3">
-                      <span class="badge bg-success">Fiyat: 500₺</span>
-                    </div>
-                  </div>
-                </a>
-              </div>
-
-              <div class="col-md-4 mb-4">
-                <a href="filmDetaylari.php" class="movie-card">
-                  <img
-                    src="https://picsum.photos/300/250?random=3"
-                    alt="Film 3"
-                  />
-                  <div class="movie-card-body">
-                    <div class="movie-title">Film Adı 3</div>
-                    <div class="movie-description">
-                      Korku türünde bir başyapıt.
-                    </div>
-                    <div class="movie-price mt-3">
-                      <span class="badge bg-success">Fiyat: 500₺</span>
-                    </div>
-                  </div>
-                </a>
-              </div>
-
-              <div class="col-md-4 mb-4">
-                <a href="filmDetaylari.php" class="movie-card">
-                  <img
-                    src="https://picsum.photos/300/250?random=4"
-                    alt="Film 4"
-                  />
-                  <div class="movie-card-body">
-                    <div class="movie-title">Film Adı 4</div>
-                    <div class="movie-description">
-                      Bilim kurgu dolu bir hikaye.
-                    </div>
-                    <div class="movie-price mt-3">
-                      <span class="badge bg-success">Fiyat: 500₺</span>
-                    </div>
-                  </div>
-                </a>
-              </div>
+            <div class="form-group">
+              <label for="genre">Tür</label>
+              <select class="form-control" id="genre" name="genre">
+                <option value="">Tüm Türler</option>
+                <option value="Komedi" <?php if ($genre == 'Komedi') echo 'selected'; ?>>Komedi</option>
+                <option value="Aksiyon" <?php if ($genre == 'Aksiyon') echo 'selected'; ?>>Aksiyon</option>
+                <option value="Dram" <?php if ($genre == 'Dram') echo 'selected'; ?>>Dram</option>
+                <option value="Korku" <?php if ($genre == 'Korku') echo 'selected'; ?>>Korku</option>
+                <option value="Bilim Kurgu" <?php if ($genre == 'Bilim Kurgu') echo 'selected'; ?>>Bilim Kurgu</option>
+              </select>
             </div>
-          </div>
+            <div class="form-group">
+              <label for="date">Tarihi</label>
+              <input
+                type="date"
+                name="date"
+                id="date"
+                class="form-control"
+                value="<?php echo htmlspecialchars($date); ?>"
+              />
+            </div>
+            <button type="submit" class="btn btn-primary btn-block mt-4">
+              Filtrele
+            </button>
+          </form>
         </div>
       </div>
-    </section>
 
-    <footer class="main-footer bg-light">
+      <div class="col-md-8">
+      <div class="row">
+  <?php if (!empty($films)): ?>
+    <?php foreach ($films as $film): ?>
+      <div class="col-md-4 mb-4">
+        <a href="filmDetaylari.php?id=<?php echo $film['id']; ?>" class="movie-card">
+          <?php 
+          $base64Image = base64_encode($film['image']);
+          ?>
+          <img
+            src="data:image/jpeg;base64,<?php echo $base64Image; ?>"
+            alt="<?php echo htmlspecialchars($film['film_adi']); ?>"
+          />
+          <div class="movie-card-body">
+            <div class="movie-title"><?php echo htmlspecialchars($film['film_adi']); ?></div>
+            <div class="movie-description">
+              <?php echo htmlspecialchars($film['film_turu']); ?>
+            </div>
+            <div class="movie-price mt-3">
+              <span class="badge bg-success">Fiyat: <?php echo htmlspecialchars($film['bilet_fiyati']); ?>₺</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    <?php endforeach; ?>
+  <?php else: ?>
+    <div class="col-12">
+      <div class="alert alert-warning">Hiç film bulunamadı.</div>
+    </div>
+  <?php endif; ?>
+</div>
+
+      </div>
+    </div>
+  </div>
+</section>
+<br><br>
+    <footer class="main-footer bg-light mt-5">
       <div class="container py-5">
         <div class="navigations">
           <h4>Sayfalar</h4>
