@@ -68,6 +68,10 @@
               <h5>Filtreler</h5>
               <form>
                 <div class="form-group">
+                <label for="filmname">Film Adı</label>
+                <input type="text" name="filmname" id="filmname" class="form-control" placeholder="Film Adı">
+                </div>
+                <div class="form-group">
                   <label for="genre">Tür</label>
                   <select class="form-control" id="genre">
                     <option>Komedi</option>
@@ -78,23 +82,8 @@
                   </select>
                 </div>
                 <div class="form-group">
-                  <label for="rating">Puan</label>
-                  <select class="form-control" id="rating">
-                    <option>7+</option>
-                    <option>8+</option>
-                    <option>9+</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="date">Yıl</label>
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="date"
-                    placeholder="Yıl"
-                    min="1900"
-                    max="2024"
-                  />
+                  <label for="date">Tarihi</label>
+                  <input type="date" name="date" id="date" class="form-control">
                 </div>
                 <button type="submit" class="btn btn-primary btn-block mt-4">
                   Filtrele
