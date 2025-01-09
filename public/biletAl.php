@@ -1,3 +1,24 @@
+<?php
+require_once 'db_connect.php';
+
+$id = isset($_GET['id']) ? $_GET['id'] : 0;
+
+if ($id <= 0) {
+    die("Geçersiz film ID.");
+}
+
+$query = "SELECT * FROM filmler WHERE id = :id LIMIT 1";
+$stmt = $conn->prepare($query);
+$stmt->bindParam(':id', $id, PDO::PARAM_INT);
+$stmt->execute();
+
+$film = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$film) {
+    die("Film bulunamadı.");
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -60,13 +81,18 @@
     <div class="row">
       <div class="col-md-4">
         <div class="card">
-          <img src="https://picsum.photos/300/400?random=5" class="card-img-top" alt="Film Posteri">
+        <?php
+          $base64Image = base64_encode($film['image']);
+          ?>
+        <img
+            src="data:image/jpeg;base64,<?php echo $base64Image; ?>"
+            alt="Film Poster"
+            class="img-fluid rounded shadow"
+          />
           <div class="card-body">
-            <h5 class="card-title">Film Adı</h5>
+          <h5 class="card-title"><?php echo $film['film_adi']; ?></h5>
             <p class="card-text">
-              <strong>Tür:</strong> Aksiyon, Bilim Kurgu<br>
-              <strong>Süre:</strong> 120 Dakika<br>
-              <strong>IMDb:</strong> 8.5/10
+            <strong>Tür:</strong> <?php echo $film['film_turu']; ?><br>
             </p>
           </div>
         </div>

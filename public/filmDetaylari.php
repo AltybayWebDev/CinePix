@@ -1,3 +1,30 @@
+<?php
+// Veritabanı bağlantısını dahil et
+require_once 'db_connect.php';
+
+// id parametresini URL'den al
+$id = isset($_GET['id']) ? $_GET['id'] : 0;
+
+// Eğer id parametresi geçerli değilse, hata mesajı göster
+if ($id <= 0) {
+    die("Geçersiz film ID.");
+}
+
+// Film verilerini almak için SQL sorgusu
+$query = "SELECT * FROM filmler WHERE id = :id LIMIT 1";
+$stmt = $conn->prepare($query);
+$stmt->bindParam(':id', $id, PDO::PARAM_INT);
+$stmt->execute();
+
+// Film verisini çek
+$film = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// Eğer film bulunamazsa, hata mesajı göster
+if (!$film) {
+    die("Film bulunamadı.");
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -51,36 +78,33 @@
     <div class="container mt-5">
       <div class="row">
         <div class="col-md-4">
+          <?php
+          $base64Image = base64_encode($film['image']);
+          ?>
           <img
-            src="https://picsum.photos/300/400"
+            src="data:image/jpeg;base64,<?php echo $base64Image; ?>"
             alt="Film Poster"
             class="img-fluid rounded shadow"
           />
         </div>
         <div class="col-md-8">
-          <h1 class="display-5">Film Adı</h1>
+          <h1 class="display-5"><?php echo htmlspecialchars($film['film_adi']); ?></h1>
           <p class="text-muted">
-            <i class="fas fa-calendar-alt"></i> 2024 |
-            <i class="fas fa-clock"></i> 120 Dakika
-          </p>
-          <p class="lead">
-            Aksiyon dolu ve sürükleyici bir film. Bu film, izleyicilere heyecan
-            verici bir hikaye sunuyor.
+            <i class="fas fa-calendar-alt"></i> <?php echo htmlspecialchars($film['yayinlanma_tarihi']); ?>
           </p>
           <p>
-            <strong>Tür:</strong> Aksiyon, Bilim Kurgu <br />
-            <strong>Yönetmen:</strong> John Doe <br />
-            <strong>IMDb Puanı:</strong> 8.5/10
+            <strong>Tür:</strong> <?php echo htmlspecialchars($film['film_turu']); ?> <br />
           </p>
           <button
-            onclick="window.location.href='biletAl.php';"
-            class="btn btn-primary btn-lg mt-3"
-          >
-            <i class="fas fa-ticket-alt"></i> Bilet Al
-          </button>
+  onclick="window.location.href='biletAl.php?id=<?php echo $_GET['id']; ?>';"
+  class="btn btn-primary btn-lg mt-3"
+>
+  <i class="fas fa-ticket-alt"></i> Bilet Al
+</button>
+
           <button
             class="btn btn-secondary btn-lg mt-3 ms-2"
-            onclick="window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank')"
+            onclick="window.open('<?php echo htmlspecialchars($film['link']); ?>', '_blank')"
           >
             <i class="fas fa-play-circle"></i> Fragmanı İzle
           </button>
@@ -88,7 +112,7 @@
       </div>
     </div>
 
-    <footer class="main-footer bg-light mt-5">
+    <footer class="main-footer bg-light" style="margin-top: 130px;">
       <div class="container py-5">
         <div class="navigations">
           <h4>Sayfalar</h4>
@@ -119,19 +143,13 @@
         <div class="socials my-auto">
           <ul class="list-unstyled">
             <li class="list-inline-item">
-              <a href="https://www.twitter.com/"
-                ><i class="fa-brands fa-facebook fa-2x"></i
-              ></a>
+              <a href="https://www.twitter.com/"><i class="fa-brands fa-facebook fa-2x"></i></a>
             </li>
             <li class="list-inline-item">
-              <a href="https://www.facebook.com/"
-                ><i class="fa-brands fa-x-twitter fa-2x"></i
-              ></a>
+              <a href="https://www.facebook.com/"><i class="fa-brands fa-x-twitter fa-2x"></i></a>
             </li>
             <li class="list-inline-item">
-              <a href="https://www.instagram.com/"
-                ><i class="fa-brands fa-instagram fa-2x"></i
-              ></a>
+              <a href="https://www.instagram.com/"><i class="fa-brands fa-instagram fa-2x"></i></a>
             </li>
           </ul>
         </div>
