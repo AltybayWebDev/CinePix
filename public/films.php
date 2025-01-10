@@ -66,36 +66,50 @@ $films = $stmt->fetchAll(PDO::FETCH_ASSOC);
   </head>
   <body>
   <body id="#body">
-    <nav class="navbar navbar-expand-md bg-dark navbar-dark">
-      <div class="container">
-        <a href="index.php" class="navbar-brand"
-          ><img src="img/Movie_Ticket.png" alt="" width="30px" />Cine<span
-            class="text-warning"
-            >Pix</span
-          ></a
-        >
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#mobile"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
+    <?php session_start(); ?>sa
+  <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+    <div class="container">
+    <a href="index.php" class="navbar-brand">
+      <img src="img/Movie_Ticket.png" alt="" width="30px" />
+      Cine<span class="text-warning">Pix</span>
+    </a>
 
-        <div id="mobile" class="collapse navbar-collapse">
-          <ul class="navbar-nav me-auto">
-            <li><a href="index.php" class="nav-link">Anasayfa</a></li>
-            <li><a href="films.php" class="nav-link active">Filmler</a></li>
-            <li><a href="contact.php" class="nav-link">İletişim</a></li>
-          </ul>
-        </div>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#mobile"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-        <a href="login.php" class="nav-link">
-          <i class="fa-solid fa-user-plus fa-2x text-white me-3"></i>
-        </a>
+    <div id="mobile" class="collapse navbar-collapse">
+      <ul class="navbar-nav me-auto">
+        <li><a href="index.php" class="nav-link ">Anasayfa</a></li>
+        <li><a href="films.php" class="nav-link active">Filmler</a></li>
+        <li><a href="contact.php" class="nav-link">İletişim</a></li>
+      </ul>
+
+      <!-- Kullanıcı giriş durumu kontrolü -->
+      <?php if (isset($_SESSION['user_id'])): ?>
+        <!-- Kullanıcı giriş yapmışsa -->
+        <div class="d-flex align-items-center">
+          <a href="profile.php" class="nav-link text-white me-3">
+            <?php echo htmlspecialchars($_SESSION['ad']); ?>
+            </a>
+            <a href="logout.php" class="nav-link text-danger pe-3 my-2">
+              <i class="fas fa-sign-out-alt"></i> Çıkış Yap
+            </a>
+          </div>
+        <?php else: ?>
+          <!-- Kullanıcı giriş yapmamışsa -->
+          <a href="login.php" class="nav-link">
+            <i class="fa-solid fa-user-plus fa-2x text-white pe-3 my-2"></i>
+          </a>
+        <?php endif; ?>
       </div>
-    </nav>
+    </div>
+  </nav>
     <section>
   <div class="container">
     <div class="row mt-5">

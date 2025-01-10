@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 require_once 'db_connect.php';
 
 $id = isset($_GET['id']) ? $_GET['id'] : 0;
@@ -16,6 +18,12 @@ $film = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$film) {
     die("Film bulunamadı.");
+}
+
+if (!isset($_SESSION['user_id'])) {
+  // Giriş yapılmadıysa login sayfasına yönlendirin
+  header("Location: login.php");
+  exit;
 }
 ?>
 

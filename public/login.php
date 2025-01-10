@@ -22,6 +22,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if (password_verify($password, $user['parola'])) {
             $_SESSION['user_id'] = $user['id'];
+            $_SESSION['ad'] = $user['ad'];
+            $_SESSION['soyad'] = $user['soyad'];
             $_SESSION['is_admin'] = false; 
 
             header("Location: index.php");
@@ -30,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $error = "Şifre hatalı.";
         }
     } else {
-        $error = "Kimlik numarası bulunamadı.";
+        $error = "Kimlik numarası madı.";
     }
 
     $stmt->close();
