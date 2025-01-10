@@ -20,10 +20,45 @@ if (!$film) {
     die("Film bulunamadı.");
 }
 
+$bilet_fiyati = isset($film['bilet_fiyati']) ? $film['bilet_fiyati'] : 0;
+$yayinlanma_saati = isset($film['yayinlanma_saati']) ? $film['yayinlanma_saati'] : '';
+
 if (!isset($_SESSION['user_id'])) {
-  // Giriş yapılmadıysa login sayfasına yönlendirin
-  header("Location: login.php");
-  exit;
+    header("Location: login.php");
+    exit;
+}
+
+$user_id = $_SESSION['user_id'];
+
+// Mevcut biletleri çek
+$biletQuery = "SELECT koltuk_no FROM biletler WHERE film_id = :film_id";
+$biletStmt = $conn->prepare($biletQuery);
+$biletStmt->bindParam(':film_id', $id, PDO::PARAM_INT);
+$biletStmt->execute();
+$doluKoltuklar = $biletStmt->fetchAll(PDO::FETCH_COLUMN);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $yayinlanma_saati = isset($_POST['yayinlanma_saati']) ? $_POST['yayinlanma_saati'] : '';
+    $selectedSeats = isset($_POST['selectedSeats']) ? json_decode($_POST['selectedSeats'], true) : [];
+
+    if (!empty($yayinlanma_saati) && !empty($selectedSeats)) {
+        $insertQuery = "INSERT INTO biletler (user_id, film_id, koltuk_no, bilet_fiyati, saati) VALUES (:user_id, :film_id, :koltuk_no, :bilet_fiyati, :saati)";
+        $insertStmt = $conn->prepare($insertQuery);
+
+        foreach ($selectedSeats as $koltuk_no) {
+            $insertStmt->execute([
+                ':user_id' => $user_id,
+                ':film_id' => $id,
+                ':koltuk_no' => $koltuk_no,
+                ':bilet_fiyati' => $bilet_fiyati,
+                ':saati' => $yayinlanma_saati
+            ]);
+        }
+
+        $basari = "Biletler başarıyla alındı!";
+    } else {
+        echo "Lütfen saat ve koltuk seçiniz.";
+    }
 }
 ?>
 
@@ -107,14 +142,10 @@ if (!isset($_SESSION['user_id'])) {
       </div>
 
       <div class="col-md-8">
-        <form action="bilet.php" method="get">
+        <form action="biletAl.php?id=<?php echo $id; ?>" method="post">
           <div class="mb-4">
-            <label for="seans" class="form-label"><strong>Seans Seçimi:</strong></label>
-            <select class="form-select" id="seans">
-              <option value="14:30">14:30 (2D Türkçe Dublaj)</option>
-              <option value="16:45">16:45 (3D Altyazılı)</option>
-              <option value="19:00">19:00 (IMAX Orijinal)</option>
-            </select>
+            <label for="yayinlanma_saati" class="form-label"><strong>Yayınlanma Saati:</strong></label>
+            <input type="text" class="form-control" id="yayinlanma_saati" name="yayinlanma_saati" value="<?php echo htmlspecialchars($yayinlanma_saati); ?>" readonly>
           </div>
 
           <div class="seat-status d-flex justify-content-center my-3">
@@ -135,13 +166,38 @@ if (!isset($_SESSION['user_id'])) {
               <script>
                 document.addEventListener("DOMContentLoaded", () => {
                   const seatMap = document.querySelector(".seat-map");
+                  const totalPriceElement = document.querySelector("#total-price");
+                  const ticketPrice = <?php echo json_encode($bilet_fiyati); ?>;
+                  const doluKoltuklar = <?php echo json_encode($doluKoltuklar); ?>;
+                  let selectedSeats = 0;
+                  let selectedSeatsArray = [];
+
                   for (let i = 1; i <= 50; i++) {
                     const seat = document.createElement("button");
                     seat.classList.add("seat", "btn", "btn-outline-secondary");
                     seat.textContent = `K${i}`;
                     seat.type = "button";
+
+                    if (doluKoltuklar.includes(`K${i}`)) {
+                      seat.classList.add("taken");
+                      seat.disabled = true;
+                    }
+
                     seat.onclick = () => {
                       seat.classList.toggle("selected");
+                      if (seat.classList.contains("selected")) {
+                        selectedSeats++;
+                        selectedSeatsArray.push(`K${i}`);
+                      } else {
+                        selectedSeats--;
+                        const index = selectedSeatsArray.indexOf(`K${i}`);
+                        if (index > -1) {
+                          selectedSeatsArray.splice(index, 1);
+                        }
+                      }
+                      const totalPrice = selectedSeats * ticketPrice;
+                      totalPriceElement.textContent = `${totalPrice}₺`;
+                      document.querySelector("#selectedSeats").value = JSON.stringify(selectedSeatsArray);
                     };
                     seatMap.appendChild(seat);
                   }
@@ -152,19 +208,22 @@ if (!isset($_SESSION['user_id'])) {
           </div>
 
           <div class="mb-4">
-            <label for="bilet" class="form-label"><strong>Bilet Türü:</strong></label>
-            <select class="form-select" id="bilet">
-              <option value="1">Yetişkin - 100₺</option>
-              <option value="2">Öğrenci - 70₺</option>
-              <option value="3">Çocuk - 50₺</option>
-            </select>
+            <p class="fs-5"><strong>Toplam Tutar:</strong> <span id="total-price">0₺</span></p>
           </div>
 
-          <div class="mb-4">
-            <p class="fs-5"><strong>Toplam Tutar:</strong> 0₺</p>
-          </div>
+          <strong>
+          <?php
+          if (!empty($basari)) {
+            echo $basari;
+        }
+          ?>
+          </strong>
 
+          <br><br>
+
+          <input type="hidden" id="selectedSeats" name="selectedSeats" value="[]">
           <button type="submit" class="btn btn-primary btn-lg">Bilet Al</button>
+          <button class="btn btn-warning btn-lg" onclick="window.location.href='films.php'; return false;">Geri</button>
         </form>
       </div>
     </div>

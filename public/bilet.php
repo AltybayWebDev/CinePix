@@ -24,7 +24,7 @@
       </div>
     </div>
     <div class="d-flex justify-content-center mt-4">
-      <a href="index.html" class="btn btn-secondary me-2">Anasayfa</a>
+      <a href="index.php" class="btn btn-secondary me-2">Anasayfa</a>
       <button onclick="showTickets()" class="btn btn-primary">Biletlerimi Görüntüle</button>
     </div>
   </div>

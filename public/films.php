@@ -66,7 +66,7 @@ $films = $stmt->fetchAll(PDO::FETCH_ASSOC);
   </head>
   <body>
   <body id="#body">
-    <?php session_start(); ?>sa
+    <?php session_start(); ?>
   <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
     <div class="container">
     <a href="index.php" class="navbar-brand">
